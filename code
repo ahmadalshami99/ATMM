@@ -1,0 +1,63 @@
+using System;
+
+namespace ATM_Management_System
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Initialize account balance to $100
+            decimal balance = 100;
+
+            while (true)
+            {
+                Console.WriteLine("Welcome to the ATM Management System");
+                Console.WriteLine("Please choose an option:");
+                Console.WriteLine("1. Check balance");
+                Console.WriteLine("2. Withdraw funds");
+                Console.WriteLine("3. Deposit funds");
+                Console.WriteLine("4. Exit");
+
+                int option = Convert.ToInt32(Console.ReadLine());
+
+                if (option == 1)
+                {
+                    // Display current balance
+                    Console.WriteLine("Your current balance is: $" + balance);
+                }
+                else if (option == 2)
+                {
+                    Console.WriteLine("Enter the amount you wish to withdraw:");
+                    decimal withdrawAmount = Convert.ToDecimal(Console.ReadLine());
+
+                    if (withdrawAmount > balance)
+                    {
+                        Console.WriteLine("Insufficient funds. Please try again.");
+                    }
+                    else
+                    {
+                        balance -= withdrawAmount;
+                        Console.WriteLine("Your new balance is: $" + balance);
+                    }
+                }
+                else if (option == 3)
+                {
+                    Console.WriteLine("Enter the amount you wish to deposit:");
+                    decimal depositAmount = Convert.ToDecimal(Console.ReadLine());
+
+                    balance += depositAmount;
+                    Console.WriteLine("Your new balance is: $" + balance);
+                }
+                else if (option == 4)
+                {
+                    // Exit the program
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid option. Please try again.");
+                }
+            }
+        }
+    }
+}
