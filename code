@@ -1,63 +1,121 @@
+
 using System;
 
-namespace ATM_Management_System
+namespace ATMSystem
 {
     class Program
     {
         static void Main(string[] args)
         {
-            // Initialize account balance to $100
-            decimal balance = 100;
+            // Create a new ATM instance
+            ATM atm = new ATM();
 
+            // Display the main menu
+            atm.ShowMainMenu();
+
+            // Handle user input
             while (true)
             {
-                Console.WriteLine("Welcome to the ATM Management System");
-                Console.WriteLine("Please choose an option:");
-                Console.WriteLine("1. Check balance");
-                Console.WriteLine("2. Withdraw funds");
-                Console.WriteLine("3. Deposit funds");
-                Console.WriteLine("4. Exit");
+                Console.Write("Enter your selection: ");
+                string input = Console.ReadLine();
 
-                int option = Convert.ToInt32(Console.ReadLine());
-
-                if (option == 1)
+                // Check account balance
+                if (input == "1")
                 {
-                    // Display current balance
-                    Console.WriteLine("Your current balance is: $" + balance);
+                    atm.CheckBalance();
                 }
-                else if (option == 2)
+                // Withdraw money
+                else if (input == "2")
                 {
-                    Console.WriteLine("Enter the amount you wish to withdraw:");
-                    decimal withdrawAmount = Convert.ToDecimal(Console.ReadLine());
+                    Console.Write("Enter amount to withdraw: ");
+                    string amountString = Console.ReadLine();
 
-                    if (withdrawAmount > balance)
+                    // Try to parse the input as a decimal
+                    if (decimal.TryParse(amountString, out decimal amount))
                     {
-                        Console.WriteLine("Insufficient funds. Please try again.");
+                        atm.Withdraw(amount);
                     }
                     else
                     {
-                        balance -= withdrawAmount;
-                        Console.WriteLine("Your new balance is: $" + balance);
+                        Console.WriteLine("Invalid amount.");
                     }
                 }
-                else if (option == 3)
+                // Deposit money
+                else if (input == "3")
                 {
-                    Console.WriteLine("Enter the amount you wish to deposit:");
-                    decimal depositAmount = Convert.ToDecimal(Console.ReadLine());
+                    Console.Write("Enter amount to deposit: ");
+                    string amountString = Console.ReadLine();
 
-                    balance += depositAmount;
-                    Console.WriteLine("Your new balance is: $" + balance);
+                    // Try to parse the input as a decimal
+                    if (decimal.TryParse(amountString, out decimal amount))
+                    {
+                        atm.Deposit(amount);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid amount.");
+                    }
                 }
-                else if (option == 4)
+                // Exit the program
+                else if (input == "4")
                 {
-                    // Exit the program
                     break;
                 }
+                // Invalid input
                 else
                 {
-                    Console.WriteLine("Invalid option. Please try again.");
+                    Console.WriteLine("Invalid selection.");
                 }
+
+                // Display the main menu again
+                atm.ShowMainMenu();
             }
         }
     }
+
+    class ATM
+    {
+        // The account balance
+        decimal balance = 0;
+
+        // Show the main menu
+        public void ShowMainMenu()
+        {
+            Console.WriteLine("ATM Menu");
+            Console.WriteLine("1. Check balance");
+            Console.WriteLine("2. Withdraw");
+            Console.WriteLine("3. Deposit");
+            Console.WriteLine("4. Exit");
+        }
+
+        // Check the account balance
+        public void CheckBalance()
+        {
+            Console.WriteLine($"Your balance is ${balance}");
+        }
+
+        // Withdraw money from the account
+        public void Withdraw(decimal amount)
+        {
+            // Check if the amount is greater than the balance
+            if (amount > balance)
+            {
+                Console.WriteLine("Insufficient funds.");
+                return;
+            }
+
+            // Update the balance and display a message
+            balance -= amount;
+            Console.WriteLine($"${amount} withdrawn. Your new balance is ${balance}");
+        }
+
+        // Deposit money into the account
+        public void Deposit(decimal amount)
+        {
+            // Update the balance and display a message
+            balance += amount;
+            Console.WriteLine($"${amount} deposited. Your new balance is ${balance}");
+        }
+    }
 }
+
